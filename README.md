@@ -19,7 +19,7 @@ When your inverter turns out to work well with an already exiting metrics group,
 | [Deye SUN600/800/1000G3-US-220/EU-230](https://www.deyeinverter.com/product/microinverter-1/sun600-800-1000g3eu230-single-phase-4-mppt-microinverter-rapid-shutdown.html) | [micro](docs/metric_group_micro.md)                                                                                  |
 | [Deye SUN1300-2000G3-US-220/EU-230](https://www.deyeinverter.com/product/microinverter-1/sun13002000g3eu230.html)                                                         | [micro](docs/metric_group_micro.md)                                                                                  |
 | [Deye SUN-5/6/8/10/12K-SG04LP3](https://deye.com/product/sun-5-6-8-10-12k-sg04lp3-5-12kw-three-phase-2-mppt-hybrid-inverter-low-voltage-battery/)                         | [deye_sg04lp3](docs/metric_group_deye_sg04lp3.md), [deye_sg04lp3_battery](docs/metric_group_deye_sg04lp3_battery.md), [deye_sg04lp3_ups](docs/metric_group_deye_sg04lp3_ups.md) |
-| [Deye SUN-5/6K-SG01LP1-US](https://deye.com/product/sun-5-6k-sg01lp1-us-sun-7-6-8k-sg01lp1-us-eu-5-8kw-single-phase-2-mppt-hybrid-inverter-low-voltage-battery/)                         | [deye_hybrid](docs/metric_group_deye_hybrid.md), [deye_hybrid_battery](docs/metric_group_deye_hybrid_battery.md) |
+| [Deye SUN-5/6K-SG01LP1-US/EU](https://deye.com/product/sun-5-6k-sg01lp1-us-sun-7-6-8k-sg01lp1-us-eu-5-8kw-single-phase-2-mppt-hybrid-inverter-low-voltage-battery/)                         | [deye_hybrid](docs/metric_group_deye_hybrid.md), [deye_hybrid_battery](docs/metric_group_deye_hybrid_battery.md) |
 | [Deye SUN-7.6/8K-SG01LP1-US/EU](https://deye.com/product/sun-5-6k-sg01lp1-us-sun-7-6-8k-sg01lp1-us-eu-5-8kw-single-phase-2-mppt-hybrid-inverter-low-voltage-battery/)                         | [deye_hybrid](docs/metric_group_deye_hybrid.md), [deye_hybrid_battery](docs/metric_group_deye_hybrid_battery.md) |
 
 | Meter model                                                         | Metric groups                                     |
@@ -195,11 +195,45 @@ By using this tool you accept this risk and you take full responsibility for the
 ## Using the stdout publisher
 
 Enabling this with `DEYE_FEATURE_STDOUT_PUBLISHER` will dump all collected
-metrics in json on stdout. This can be used e.g. in combination with other
-tools to process and push the metrics into various different systems other than
-mqtt.
+metrics in json on stdout once every cycle (every `DEYE_DATA_READ_INTERVAL`
+seconds).
+This can be useful in combination with other tools to process and push the
+metrics into different systems other than mqtt.
 
-You can read more about an example usage in combination with telegraf [here](./docs/telegraf.md).
+The json object has the following structure:
+```json
+{
+  "serial": "1234567890",
+  "address": "192.168.0.1",
+  "port": 8899,
+  "data": [
+    {
+      "up": 1,
+    }, {
+      "temp": 31,
+      "name": "Radiator temperature",
+      "unit": "°C",
+      "groups": "micro",
+      "sensor": "SingleRegisterSensor",
+      "source": "radiator",
+      "timestamp": 1686219130
+    }, {
+      "energy": 0.2,
+      "name": "PV1 Total",
+      "unit": "kWh",
+      "groups": "micro",
+      "sensor": "DoubleRegisterSensor",
+      "source": "dc/pv1/total",
+      "timestamp": 1686219130
+    }, {
+      ...
+    }
+  ]
+}
+```
+
+You can read more about an example usage in combination with telegraf
+[here](./docs/telegraf.md).
 
 ## Development
 Read [CONTRIBUTING.md](./CONTRIBUTING.md)
