@@ -21,6 +21,8 @@ from deye_sensor import (
     DoubleRegisterSensor,
     ComputedSumSensor,
     SensorRegisterRange,
+    ComputedLossSensor,
+    ComputedEfficiencySensor,
 )
 
 from deye_sensors_deye_sg04lp3 import deye_sg04lp3_sensors, deye_sg04lp3_register_ranges
@@ -31,10 +33,10 @@ from deye_sensors_settings import deye_settings_sensors, deye_settings_register_
 
 # AC Phase 1
 phase1_voltage_sensor = SingleRegisterSensor(
-    "Phase1 Voltage", 0x49, 0.1, mqtt_topic_suffix="ac/l1/voltage", unit="V", groups=["string", "micro"]
+    "Phase1 Voltage", 0x49, 0.1, mqtt_topic_suffix="ac/l1/voltage", unit="V", groups=["string", "micro", "micro2"]
 )
 phase1_current_sensor = SingleRegisterSensor(
-    "Phase1 Current", 0x4C, 0.1, mqtt_topic_suffix="ac/l1/current", unit="A", groups=["string", "micro"]
+    "Phase1 Current", 0x4C, 0.1, mqtt_topic_suffix="ac/l1/current", unit="A", groups=["string", "micro", "micro2"]
 )
 phase1_power_sensor = ComputedPowerSensor(
     "Phase1 Power",
@@ -42,7 +44,7 @@ phase1_power_sensor = ComputedPowerSensor(
     phase1_current_sensor,
     mqtt_topic_suffix="ac/l1/power",
     unit="W",
-    groups=["string", "micro"],
+    groups=["string", "micro", "micro2"],
 )
 
 # AC Phase 2
@@ -79,7 +81,7 @@ phase3_power_sensor = ComputedPowerSensor(
 
 # AC Freq
 ac_freq_sensor = SingleRegisterSensor(
-    "AC Freq", 0x4F, 0.01, mqtt_topic_suffix="ac/freq", unit="Hz", groups=["string", "micro"]
+    "AC Freq", 0x4F, 0.01, mqtt_topic_suffix="ac/freq", unit="Hz", groups=["string", "micro", "micro2"]
 )
 
 # Production today
@@ -92,10 +94,10 @@ uptime_sensor = SingleRegisterSensor(
 
 # DC PV1
 pv1_voltage_sensor = SingleRegisterSensor(
-    "PV1 Voltage", 0x6D, 0.1, mqtt_topic_suffix="dc/pv1/voltage", unit="V", groups=["string", "micro"]
+    "PV1 Voltage", 0x6D, 0.1, mqtt_topic_suffix="dc/pv1/voltage", unit="V", groups=["string", "micro", "micro2"]
 )
 pv1_current_sensor = SingleRegisterSensor(
-    "PV1 Current", 0x6E, 0.1, mqtt_topic_suffix="dc/pv1/current", unit="A", groups=["string", "micro"]
+    "PV1 Current", 0x6E, 0.1, mqtt_topic_suffix="dc/pv1/current", unit="A", groups=["string", "micro", "micro2"]
 )
 pv1_power_sensor = ComputedPowerSensor(
     "PV1 Power",
@@ -106,18 +108,18 @@ pv1_power_sensor = ComputedPowerSensor(
     groups=["string", "micro"],
 )
 pv1_daily_sensor = SingleRegisterSensor(
-    "PV1 Production today", 0x41, 0.1, mqtt_topic_suffix="dc/pv1/day_energy", unit="kWh", groups=["micro"]
+    "PV1 Production today", 0x41, 0.1, mqtt_topic_suffix="dc/pv1/day_energy", unit="kWh", groups=["micro", "micro2"]
 )
 pv1_total_sensor = DoubleRegisterSensor(
-    "PV1 Total", 0x45, 0.1, mqtt_topic_suffix="dc/pv1/total_energy", unit="kWh", groups=["micro"]
+    "PV1 Total", 0x45, 0.1, mqtt_topic_suffix="dc/pv1/total_energy", unit="kWh", groups=["micro", "micro2"]
 )
 
 # DC PV2
 pv2_voltage_sensor = SingleRegisterSensor(
-    "PV2 Voltage", 0x6F, 0.1, mqtt_topic_suffix="dc/pv2/voltage", unit="V", groups=["string", "micro"]
+    "PV2 Voltage", 0x6F, 0.1, mqtt_topic_suffix="dc/pv2/voltage", unit="V", groups=["string", "micro", "micro2"]
 )
 pv2_current_sensor = SingleRegisterSensor(
-    "PV2 Current", 0x70, 0.1, mqtt_topic_suffix="dc/pv2/current", unit="A", groups=["string", "micro"]
+    "PV2 Current", 0x70, 0.1, mqtt_topic_suffix="dc/pv2/current", unit="A", groups=["string", "micro", "micro2"]
 )
 pv2_power_sensor = ComputedPowerSensor(
     "PV2 Power",
@@ -125,13 +127,13 @@ pv2_power_sensor = ComputedPowerSensor(
     pv2_current_sensor,
     mqtt_topic_suffix="dc/pv2/power",
     unit="W",
-    groups=["string", "micro"],
+    groups=["string", "micro", "micro2"],
 )
 pv2_daily_sensor = SingleRegisterSensor(
-    "PV2 Production today", 0x42, 0.1, mqtt_topic_suffix="dc/pv2/day_energy", unit="kWh", groups=["micro"]
+    "PV2 Production today", 0x42, 0.1, mqtt_topic_suffix="dc/pv2/day_energy", unit="kWh", groups=["micro", "micro2"]
 )
 pv2_total_sensor = DoubleRegisterSensor(
-    "PV2 Total", 0x47, 0.1, mqtt_topic_suffix="dc/pv2/total_energy", unit="kWh", groups=["micro"]
+    "PV2 Total", 0x47, 0.1, mqtt_topic_suffix="dc/pv2/total_energy", unit="kWh", groups=["micro", "micro2"]
 )
 
 # DC PV3
@@ -190,13 +192,13 @@ micro_dc_power_sensor = ComputedSumSensor(
     [pv1_power_sensor, pv2_power_sensor, pv3_power_sensor, pv4_power_sensor],
     mqtt_topic_suffix="dc/total_power",
     unit="W",
-    groups=["micro"],
+    groups=["micro", "micro2"],
 )
 ac_apparent_power_sensor = SingleRegisterSensor(
     "AC Apparent Power", 0x54, 0.1, mqtt_topic_suffix="ac/apparent_power", unit="W", groups=["string"]
 )
 ac_active_power_sensor = DoubleRegisterSensor(
-    "AC Active Power", 0x56, 0.1, mqtt_topic_suffix="ac/active_power", unit="W", groups=["string", "micro"]
+    "AC Active Power", 0x56, 0.1, mqtt_topic_suffix="ac/active_power", unit="W", groups=["string", "micro", "micro2"]
 )
 ac_reactive_power_sensor = SingleRegisterSensor(
     "AC Reactive Power", 0x58, 0.1, mqtt_topic_suffix="ac/reactive_power", unit="W", groups=["string"]
@@ -214,6 +216,40 @@ micro_radiator_temp_sensor = SingleRegisterSensor(
 )
 igbt_temp_sensor = SingleRegisterSensor(
     "IGBT temperature", 0x5B, 0.1, offset=-100, mqtt_topic_suffix="igbt_temp", unit="°C", groups=["string"]
+)
+
+string_powerloss_sensor = ComputedLossSensor(
+    "Estimated Power Loss",
+    string_dc_power_sensor,
+    ac_active_power_sensor,
+    mqtt_topic_suffix="powerloss",
+    unit="W",
+    groups=["string"],
+)
+
+micro_powerloss_sensor = ComputedLossSensor(
+    "Estimated Power Loss",
+    micro_dc_power_sensor,
+    ac_active_power_sensor,
+    mqtt_topic_suffix="powerloss",
+    unit="W",
+    groups=["micro", "micro2"],
+)
+
+string_efficiency_sensor = ComputedEfficiencySensor(
+    string_dc_power_sensor,
+    ac_active_power_sensor,
+    mqtt_topic_suffix="efficiency",
+    unit="%",
+    groups=["micro"],
+)
+
+micro_efficiency_sensor = ComputedEfficiencySensor(
+    micro_dc_power_sensor,
+    ac_active_power_sensor,
+    mqtt_topic_suffix="efficiency",
+    unit="%",
+    groups=["micro", "micro2"],
 )
 
 sensor_list = (
@@ -260,6 +296,10 @@ sensor_list = (
         string_radiator_temp_sensor,
         micro_radiator_temp_sensor,
         igbt_temp_sensor,
+        micro_powerloss_sensor,
+        micro_efficiency_sensor,
+        string_powerloss_sensor,
+        string_efficiency_sensor,
     ]
     + deye_sg04lp3_sensors
     + igen_dtsd422_sensors
@@ -272,6 +312,7 @@ sensor_register_ranges = (
     [
         SensorRegisterRange(group="string", first_reg_address=0x3C, last_reg_address=0x74),
         SensorRegisterRange(group="micro", first_reg_address=0x3C, last_reg_address=0x74),
+        SensorRegisterRange(group="micro2", first_reg_address=0x3C, last_reg_address=0x74),
     ]
     + deye_sg04lp3_register_ranges
     + igen_dtsd422_register_ranges

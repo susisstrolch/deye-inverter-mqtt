@@ -40,6 +40,7 @@ class DeyeDaemon:
         self.__log = logging.getLogger(DeyeDaemon.__name__)
         self.__config = config
         self.__log.info(
+            "Homebrew\n"
             "Please help me build the list of compatible inverters. "
             "https://github.com/kbialek/deye-inverter-mqtt/issues/41"
         )
