@@ -86,7 +86,7 @@ ac_freq_sensor = SingleRegisterSensor(
 
 # Production today
 production_today_sensor = SingleRegisterSensor(
-    "Production today", 0x3C, 0.1, mqtt_topic_suffix="day_energy", unit="kWh", groups=["string", "micro"]
+    "Production today", 0x3C, 0.1, mqtt_topic_suffix="day_energy", unit="kWh", groups=["string", "micro", "micro2"]
 )
 uptime_sensor = SingleRegisterSensor(
     "Uptime", 0x3E, 1, mqtt_topic_suffix="uptime", unit="minutes", groups=["string", "micro"]
@@ -105,7 +105,7 @@ pv1_power_sensor = ComputedPowerSensor(
     pv1_current_sensor,
     mqtt_topic_suffix="dc/pv1/power",
     unit="W",
-    groups=["string", "micro"],
+    groups=["string", "micro", "micro2"],
 )
 pv1_daily_sensor = SingleRegisterSensor(
     "PV1 Production today", 0x41, 0.1, mqtt_topic_suffix="dc/pv1/day_energy", unit="kWh", groups=["micro", "micro2"]
@@ -204,7 +204,7 @@ ac_reactive_power_sensor = SingleRegisterSensor(
     "AC Reactive Power", 0x58, 0.1, mqtt_topic_suffix="ac/reactive_power", unit="W", groups=["string"]
 )
 production_total_sensor = DoubleRegisterSensor(
-    "Production Total", 0x3F, 0.1, mqtt_topic_suffix="total_energy", unit="kWh", groups=["string", "micro"]
+    "Production Total", 0x3F, 0.1, mqtt_topic_suffix="total_energy", unit="kWh", groups=["string", "micro", "micro2"]
 )
 
 # Temperature sensors
@@ -212,13 +212,7 @@ string_radiator_temp_sensor = SingleRegisterSensor(
     "Radiator temperature", 0x5A, 0.1, offset=-100, mqtt_topic_suffix="radiator_temp", unit="°C", groups=["string"]
 )
 micro_radiator_temp_sensor = SingleRegisterSensor(
-    "Radiator temperature",
-    0x5A,
-    0.01,
-    offset=-10,
-    mqtt_topic_suffix="radiator_temp",
-    unit="°C",
-    groups=["micro", "micro2"],
+    "Radiator temperature", 0x5A, 0.01, offset=-10, mqtt_topic_suffix="radiator_temp", unit="°C", groups=["micro", "micro2"],
 )
 igbt_temp_sensor = SingleRegisterSensor(
     "IGBT temperature", 0x5B, 0.1, offset=-100, mqtt_topic_suffix="igbt_temp", unit="°C", groups=["string"]
@@ -248,7 +242,7 @@ string_efficiency_sensor = ComputedEfficiencySensor(
     ac_active_power_sensor,
     mqtt_topic_suffix="efficiency",
     unit="%",
-    groups=["micro"],
+    groups=["string"],
 )
 
 micro_efficiency_sensor = ComputedEfficiencySensor(
