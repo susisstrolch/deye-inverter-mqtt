@@ -227,26 +227,27 @@ class ComputedSumSensor(Sensor):
     def get_registers(self) -> list[int]:
         return []
 
+
 class ComputedLossSensor(Sensor):
     """
     Computes powerloss as difference from DCSensor and ACSensor.
     """
 
     def __init__(
-        self, 
-        name: str, 
+        self,
+        name: str,
         ACSensor: Sensor,
         DCSensor: Sensor,
-        mqtt_topic_suffix="", 
-        unit="", 
-        print_format="{:0.1f}", groups=[]
+        mqtt_topic_suffix="",
+        unit="",
+        print_format="{:0.1f}",
+        groups=[],
     ):
         super().__init__(name, mqtt_topic_suffix, unit, print_format, groups)
-        self.ACSensor=ACSensor
-        self.DCSensor=DCSensor
+        self.ACSensor = ACSensor
+        self.DCSensor = DCSensor
 
     def read_value(self, registers: dict[int, bytearray]):
-        result = 0
         ACSensor = self.ACSensor.read_value(registers)
         DCSensor = self.DCSensor.read_value(registers)
         if ACSensor is not None and DCSensor is not None and DCSensor > ACSensor:
@@ -258,26 +259,27 @@ class ComputedLossSensor(Sensor):
     def get_registers(self) -> list[int]:
         return []
 
+
 class ComputedEfficiencySensor(Sensor):
     """
     Computes the effeciency of two power sensors
     """
 
     def __init__(
-        self, 
-        name: str, 
+        self,
+        name: str,
         ACSensor: Sensor,
         DCSensor: Sensor,
-        mqtt_topic_suffix="", 
-        unit="", 
-        print_format="{:0.1f}", groups=[]
+        mqtt_topic_suffix="",
+        unit="",
+        print_format="{:0.1f}",
+        groups=[],
     ):
         super().__init__(name, mqtt_topic_suffix, unit, print_format, groups)
-        self.ACSensor=ACSensor
-        self.DCSensor=DCSensor
+        self.ACSensor = ACSensor
+        self.DCSensor = DCSensor
 
     def read_value(self, registers: dict[int, bytearray]):
-        result = 0
         ACSensor = self.ACSensor.read_value(registers)
         DCSensor = self.DCSensor.read_value(registers)
         if ACSensor is not None and DCSensor is not None and DCSensor > ACSensor:
@@ -288,6 +290,7 @@ class ComputedEfficiencySensor(Sensor):
     @abstractmethod
     def get_registers(self) -> list[int]:
         return []
+
 
 class SensorRegisterRange:
     """

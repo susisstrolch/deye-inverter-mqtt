@@ -212,7 +212,13 @@ string_radiator_temp_sensor = SingleRegisterSensor(
     "Radiator temperature", 0x5A, 0.1, offset=-100, mqtt_topic_suffix="radiator_temp", unit="°C", groups=["string"]
 )
 micro_radiator_temp_sensor = SingleRegisterSensor(
-    "Radiator temperature", 0x5A, 0.01, offset=-10, mqtt_topic_suffix="radiator_temp", unit="°C", groups=["micro"]
+    "Radiator temperature",
+    0x5A,
+    0.01,
+    offset=-10,
+    mqtt_topic_suffix="radiator_temp",
+    unit="°C",
+    groups=["micro", "micro2"],
 )
 igbt_temp_sensor = SingleRegisterSensor(
     "IGBT temperature", 0x5B, 0.1, offset=-100, mqtt_topic_suffix="igbt_temp", unit="°C", groups=["string"]
@@ -237,6 +243,7 @@ micro_powerloss_sensor = ComputedLossSensor(
 )
 
 string_efficiency_sensor = ComputedEfficiencySensor(
+    "Computed Efficiency",
     string_dc_power_sensor,
     ac_active_power_sensor,
     mqtt_topic_suffix="efficiency",
@@ -245,6 +252,7 @@ string_efficiency_sensor = ComputedEfficiencySensor(
 )
 
 micro_efficiency_sensor = ComputedEfficiencySensor(
+    "Computed Efficiency",
     micro_dc_power_sensor,
     ac_active_power_sensor,
     mqtt_topic_suffix="efficiency",
