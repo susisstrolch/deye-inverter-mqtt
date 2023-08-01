@@ -212,7 +212,13 @@ string_radiator_temp_sensor = SingleRegisterSensor(
     "Radiator temperature", 0x5A, 0.1, offset=-100, mqtt_topic_suffix="radiator_temp", unit="°C", groups=["string"]
 )
 micro_radiator_temp_sensor = SingleRegisterSensor(
-    "Radiator temperature", 0x5A, 0.01, offset=-10, mqtt_topic_suffix="radiator_temp", unit="°C", groups=["micro", "micro2"],
+    "Radiator temperature",
+    0x5A,
+    0.01,
+    offset=-10,
+    mqtt_topic_suffix="radiator_temp",
+    unit="°C",
+    groups=["micro", "micro2"],
 )
 igbt_temp_sensor = SingleRegisterSensor(
     "IGBT temperature", 0x5B, 0.1, offset=-100, mqtt_topic_suffix="igbt_temp", unit="°C", groups=["string"]
